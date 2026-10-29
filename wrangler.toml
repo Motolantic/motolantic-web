@@ -1,7 +1,8 @@
-name = "motolantic-platform"
+name = "motolantic-web"
 compatibility_date = "2026-10-21"
-compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".vercel/output/static"
+
+[assets]
+directory = "./out"
 
 [vars]
 NEXT_PUBLIC_APP_ENV = "production"

@@ -3,34 +3,21 @@ import {
   calculateDeterministicQuote,
   enforceMAGSPermission,
 } from "@/lib/deterministic-engine";
-import { CostComponents, UserRole } from "@/types/motolantic";
+import { MTL_SIM_001_OFFERS } from "@/data/motolantic-data";
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+export const dynamic = "force-static";
 
-    if (body.type === "CHECK_PERMISSION") {
-      const actor = body.actor as UserRole | "agen_ai";
-      const action = body.action as string;
-      const result = enforceMAGSPermission(actor, action);
+export async function GET() {
+  const sampleQuote = calculateDeterministicQuote(MTL_SIM_001_OFFERS[0].costInput);
+  const sampleMagsCheck = enforceMAGSPermission("agen_ai", "skill.install");
 
-      return NextResponse.json(result, { status: result.httpStatus });
-    }
-
-    if (body.type === "CALCULATE_QUOTE") {
-      const costInput = body.costInput as CostComponents;
-      const quote = calculateDeterministicQuote(costInput);
-      return NextResponse.json(quote, { status: 200 });
-    }
-
-    return NextResponse.json(
-      { error: "Tipe permintaan API tidak dikenal." },
-      { status: 400 }
-    );
-  } catch {
-    return NextResponse.json(
-      { error: "Kesalahan pemrosesan permintaan deterministik." },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    {
+      status: "ACTIVE",
+      engine: "DETERMINISTIC_BACKEND_CODE",
+      sampleQuoteOptionA: sampleQuote,
+      sampleMagsEnforcement: sampleMagsCheck,
+    },
+    { status: 200 }
+  );
 }
