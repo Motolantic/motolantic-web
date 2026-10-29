@@ -11,6 +11,7 @@
     "deploy": "npx wrangler deploy"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "lucide-react": "^0.454.0",
     "next": "^14.2.35",
     "react": "^18.3.1",
