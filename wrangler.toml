@@ -1,5 +1,7 @@
 name = "motolantic-web"
 compatibility_date = "2026-10-21"
+workers_dev = true
+preview_urls = false
 
 [assets]
 directory = "./out"
